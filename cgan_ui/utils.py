@@ -4,8 +4,43 @@ from datetime import datetime, timedelta
 from pathlib import Path
 from loguru import logger
 from cgan_ui.enums import DataSourceIdentifier
-from cgan_ui.data_utils import get_region_extent
-from cgan_ui.constants import LEAD_START_HOUR, LEAD_END_HOUR, DATA_PARAMS, COUNTRY_NAMES
+from show_forecasts.data_utils import get_region_extent, get_locations_data
+from show_forecasts.constants import (
+    LEAD_START_HOUR,
+    LEAD_END_HOUR,
+    DATA_PARAMS,
+    COUNTRY_NAMES,
+)
+
+
+def load_env_file(
+    dotenv_path: Path | None = Path("./.env"), override: bool | None = False
+):
+    if dotenv_path.exists():
+        with open(dotenv_path, "r") as fp:
+            lines = fp.read().splitlines()  # make a list of lines using brak marks (\n)
+        # process values from .env
+        env_vars = {}
+        for line in lines:
+            line = line.strip()
+            # skip blank lines, comments and args with no value
+            if not line or line.startswith("#") or "=" not in line:
+                continue
+            key, value = line.split("=", maxsplit=1)
+            env_vars.setdefault(key, value)
+        # set environment variables
+        if override:
+            os.environ.update(env_vars)
+        else:
+            for key, value in env_vars.items():
+                os.environ.setdefault(key, value)
+
+
+def get_locations_data_for_region(region: str | None = None):
+    locations = get_locations_data()
+    if region is None or region == COUNTRY_NAMES[0]:
+        return locations
+    return [location for location in locations if location["country"] == region]
 
 
 def get_possible_forecast_dates(
@@ -32,8 +67,8 @@ def get_relevant_forecast_steps(
 # for ecmwf, gbmc, cgan; branches to region/year/month/file_name
 # for jobs; subdirectories include downloads, grib2, gbmc
 def get_data_store_path(source: str, mask_region: str | None = None) -> Path:
+    load_env_file()
     store = Path(os.getenv("DATA_STORE_DIR", str(Path("./store")))).absolute()
-
     data_dir_path = (
         store / source if mask_region is None else store / source / mask_region
     )

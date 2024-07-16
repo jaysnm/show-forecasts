@@ -1,32 +1,23 @@
 [tool.poetry]
 name = "cgan_ui"
 version = "0.1.0"
-description = "cGAN ineteractive user interface"
+description = "cGAN interactive user interface"
 authors = ["Jason Kinyua <jaysnmury@gmail.com>"]
-license = "CC BY"
+license = "CC BY 4.0"
 readme = "README.md"
 
 [tool.poetry.dependencies]
-python = ">=3.10, <3.20"
-mercury = "^2.3.7"
-numpy = "^1.26.4"
-pandas = "^2.2.1"
-Cartopy = "^0.22.0"
-matplotlib = "^3.8.3"
-cfgrib = "^0.9.10.4"
-xarray = {extras = ["io", "viz"], version = "^2024.2.0"}
-eccodes = "^1.7.0"
+python = ">=3.10, <3.13"
+mercury = "^2.4.3"
 ecmwf-opendata = "^0.3.3"
 loguru = "^0.7.2"
-uritemplate = "^4.1.1"
-psycopg2 = "^2.9.9"
-schedule = "^1.2.1"
-netcdf4 = "^1.6.5"
-dask = "^2024.4.0"
-zarr = "^2.17.1"
+schedule = "^1.2.2"
 sysrsync = "^1.1.1"
-pyshp = "^2.3.1"
 folium = "^0.16.0"
+# show_forecasts = {git = "https://github.com/Fenwick-Cooper/show-forecasts.git", rev = "for-mercury"}
+jupyter = {version = "^1.0.0", optional = true}
+jupyterlab = {version = "^4.2.3", optional = true}
+psycopg2-binary = "^2.9.9"
 
 
 [build-system]

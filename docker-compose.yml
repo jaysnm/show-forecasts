@@ -49,7 +49,7 @@ services:
       - ${CGAN_DATA_PATHS_CONFIG:-./data/configs/data_paths.yaml}:${WORK_HOME:-/opt/cgan}/ensemble-cgan/dsrnngan/data_paths.yaml:ro
       - ${CGAN_FORECAST_CONFIG:-./data/configs/forecast.yaml}:${WORK_HOME:-/opt/cgan}/ensemble-cgan/dsrnngan/forecast.yaml:ro
       - ${CGAN_LOCAL_CONFIG:-./data/configs/local.yaml}:${WORK_HOME:-/opt/cgan}/ensemble-cgan/dsrnngan/local_config.yaml:ro
-      - ${IFS_SERVER_KEY:-./data/private/id_rsa.key}:${IFS_PRIVATE_KEY:-/srv/ssl/private.key}:ro
+      - ${IFS_SERVER_KEY:-./data/private/id_rsa}:${IFS_PRIVATE_KEY:-/srv/ssl/private.key}:ro
 
   # jupyter:
   #   image: ${LAB_IMAGE_NAME:-icpac/cgan-jupyter}

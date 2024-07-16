@@ -1,6 +1,5 @@
 import sys, os, time, schedule
 from pathlib import Path
-from datetime import datetime
 from cgan_ui.download import (
     syncronize_open_ifs_forecast_data,
     syncronize_post_processed_ifs_data,

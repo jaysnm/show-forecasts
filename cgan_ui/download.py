@@ -8,9 +8,9 @@ from datetime import datetime, timedelta
 from ecmwf.opendata import Client
 from ecmwf.opendata.client import Result
 from loguru import logger
+from show_forecasts.data_utils import get_region_extent
 from cgan_ui.utils import (
     get_data_store_path,
-    get_region_extent,
     get_forecast_data_dates,
     get_possible_forecast_dates,
     get_relevant_forecast_steps,
@@ -22,7 +22,7 @@ from cgan_ui.utils import (
     migrate_files,
     save_to_new_filesystem_structure,
 )
-from cgan_ui.constants import COUNTRY_NAMES
+from show_forecasts.constants import COUNTRY_NAMES
 
 
 def read_dataset(file_path: str | Path) -> list[xr.DataArray]:

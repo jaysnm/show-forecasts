@@ -28,7 +28,6 @@ WORKDIR ${APP_DIR}
 
 COPY --chown=mycgan:root --chmod=0754 poetry.lock pyproject.toml README.md welcome.md ${APP_DIR}
 COPY --chown=mycgan:root --chmod=0754 ./cgan_ui ${APP_DIR}/cgan_ui
-COPY --chown=mycgan:root --chmod=0754 ./shapefiles ${APP_DIR}/shapefiles
 COPY --chmod=0754 --chown=mycgan:root ./docker/jobs/entrypoint.sh ${APP_DIR}/
 
 ENV PATH=${WORK_HOME}/bin:${VENV_DIR}/bin:$PATH WORK_HOME=${WORK_HOME} APP_DIR=${APP_DIR} \

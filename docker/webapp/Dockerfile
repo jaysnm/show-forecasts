@@ -17,7 +17,9 @@ RUN apt-get update -y && \
 # service runtime filesystem directories
 RUN mkdir -p ${WORK_HOME} ${APP_DIR} ${DATA_STORE_DIR} ${VENV_DIR} && \
     git clone --depth 1 https://github.com/mljar/mercury.git /tmp/src-code && \
-    cp -rf /tmp/src-code/mercury ${WORK_HOME} && rm -rf /tmp/src-code
+    cp -rf /tmp/src-code/mercury ${WORK_HOME} && rm -rf /tmp/src-code && \
+    git clone --depth 1 https://github.com/Fenwick-Cooper/show-forecasts.git -b for-mercury ${WORK_HOME}/show-forecasts
+
 
 RUN groupadd --gid ${APP_GROUP_ID} mycgan && \ 
     useradd --home-dir ${WORK_HOME} --uid ${APP_USER_ID} --gid ${APP_GROUP_ID} mycgan && \
@@ -28,7 +30,6 @@ WORKDIR ${APP_DIR}
 
 COPY --chown=mycgan:root --chmod=0754 poetry.lock pyproject.toml README.md welcome.md ${APP_DIR}/
 COPY --chown=mycgan:root --chmod=0754 ./cgan_ui ${APP_DIR}/cgan_ui
-COPY --chown=mycgan:root --chmod=0754 ./shapefiles ${APP_DIR}/shapefiles
 COPY --chown=mycgan:root --chmod=0754 ./webapps ${APP_DIR}/webapps
 COPY --chmod=0754 --chown=mycgan:root ./docker/webapp/entrypoint.sh ${APP_DIR}/
 
@@ -36,7 +37,7 @@ ENV PATH=${WORK_HOME}/bin:${VENV_DIR}/bin:$PATH \
     WORK_HOME=${WORK_HOME} APP_DIR=${APP_DIR} \
     DATA_STORE_DIR=${DATA_STORE_DIR} VENV_DIR=${VENV_DIR}
 
-RUN python -m venv ${VENV_DIR} && \
-    . ${VENV_DIR}/bin/activate && \
-    pip install --no-cache -e . && \
+RUN python -m venv ${VENV_DIR} && . ${VENV_DIR}/bin/activate && \
+    cd ${WORK_HOME}/show-forecasts && pip install --no-cache -e .&& \
+    cd ${APP_DIR} && pip install --no-cache -e . && \
     pyppeteer-install

@@ -30,9 +30,11 @@ COPY --chown=mycgan:root --chmod=0754 poetry.lock pyproject.toml README.md welco
 COPY --chown=mycgan:root --chmod=0754 ./cgan_ui ${SRC_DIR}/ui/cgan_ui
 
 RUN git clone --depth 1 https://github.com/jaysnm/ensemble-cgan.git -b Jurre_brishti ${SRC_DIR}/model && \
+    git clone --depth 1 https://github.com/Fenwick-Cooper/show-forecasts.git -b for-mercury ${SRC_DIR}/show-forecasts && \
     python -m venv ${VENV_DIR} && . ${VENV_DIR}/bin/activate && \
-    cd ${SRC_DIR}/model && pip install --no-cache -e . && pip install jupyterlab \
-    && cd ${SRC_DIR}/ui && pip install --no-cache -e .
+    cd ${SRC_DIR}/model && pip install --no-cache -e . && \
+    cd ${SRC_DIR}/show-forecasts && pip install --no-cache -e . && \
+    pip install jupyterlab && cd ${SRC_DIR}/ui && pip install --no-cache -e .
 
 WORKDIR ${WORK_HOME}
 CMD ["jupyter-lab", "--IdentityProvider.token=''", "--no-browser"]
