@@ -1,6 +1,8 @@
-import sys, os, time, schedule
+import sys
+import os
+import time
+import schedule
 from pathlib import Path
-from datetime import datetime
 from cgan_ui.download import (
     syncronize_open_ifs_forecast_data,
     syncronize_post_processed_ifs_data,
@@ -33,7 +35,7 @@ set_data_sycn_status(source="cgan", status=0)
 set_data_sycn_status(source="ecmwf", status=0)
 syncronize_post_processed_ifs_data()
 syncronize_open_ifs_forecast_data(dateback=1)
-
+# syncronize_post_processed_ifs_data()
 
 for hour in range(11, 24, 1):
     schedule.every().day.at(f"{str(hour).rjust(2, '0')}:00", "Africa/Nairobi").do(

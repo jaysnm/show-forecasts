@@ -1,4 +1,6 @@
-import sysrsync, subprocess, cfgrib
+import sysrsync
+import subprocess
+import cfgrib
 import xarray as xr
 from os import getenv
 from pathlib import Path
@@ -332,7 +334,7 @@ def syncronize_post_processed_ifs_data(
         # set data syncronization status
         set_data_sycn_status(source="cgan", status=1)
         gan_dates = get_forecast_data_dates(mask_region=mask_region, source="cgan")
-        gan_dates = ["Jan 01, 2024"] if not len(gan_dates) else gan_dates
+        gan_dates = ["Fb 01, 2024"] if not len(gan_dates) else gan_dates
         final_data_date = datetime.strptime(gan_dates[0].lower(), "%b %d, %Y")
         delta = datetime.now() - final_data_date
         logger.debug(
