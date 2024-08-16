@@ -44,6 +44,8 @@ DATA_PARAMS = {
     },
 }
 
+OPEN_IFS_DATA_VARIABLES = ["tp", "sp", "msl", "t2m", "ro", "u10", "v10"]
+
 # All forecasts are initialised at 00:00 UTC
 # Lead times are 30, 33, 36, 39, 42, 45, 48, 51, 54 hours.
 LEAD_START_HOUR = 30
