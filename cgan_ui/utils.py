@@ -75,7 +75,10 @@ def get_directory_files(data_path: Path, files: list[Path] | None = []) -> list[
     return list(set(files))
 
 
-def get_forecast_data_files(mask_region: str, source: str) -> list[str]:
+def get_forecast_data_files(
+    source: str,
+    mask_region: str | None = None,
+) -> list[str]:
     store_path = get_data_store_path(source=source, mask_region=mask_region)
     data_files = get_directory_files(data_path=store_path, files=[])
     return [str(dfile).split("/")[-1] for dfile in data_files]
