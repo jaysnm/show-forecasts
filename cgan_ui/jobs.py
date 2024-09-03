@@ -38,7 +38,7 @@ set_data_sycn_status(source="cgan", status=0)
 set_data_sycn_status(source="ecmwf", status=0)
 syncronize_post_processed_ifs_data()
 syncronize_open_ifs_forecast_data(dateback=1)
-compress_open_ifs_data()
+# compress_open_ifs_data()
 
 for hour in range(11, 24, 1):
     schedule.every().day.at(f"{str(hour).rjust(2, '0')}:00", "Africa/Nairobi").do(
