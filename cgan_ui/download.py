@@ -293,7 +293,7 @@ def syncronize_post_processed_ifs_data(
 
 
 def compress_open_ifs_data():
-    data_files = get_forecast_data_files(source="jobs/grib2")
+    data_files = get_forecast_data_files(source="jobs/downloads")
     for data_file in data_files:
         post_process_ecmwf_grib2_dataset(grib2_file_name=data_file, force_process=True)
 
