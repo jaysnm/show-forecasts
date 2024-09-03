@@ -18,6 +18,7 @@ from cgan_ui.utils import (
     get_data_store_path,
     get_data_sycn_status,
     get_dataset_file_path,
+    get_forecast_data_files,
     get_forecast_data_dates,
     get_possible_forecast_dates,
     migrate_files,
@@ -193,9 +194,7 @@ def syncronize_open_ifs_forecast_data(
                     open_ifs.extend(future.result())
 
         for grib2_file in open_ifs:
-            post_process_ecmwf_grib2_dataset(
-                grib2_file_name=grib2_file, force_process=True
-            )
+            post_process_ecmwf_grib2_dataset(grib2_file_name=grib2_file)
 
         # set data syncronization status
         set_data_sycn_status(source="ecmwf", status=0)
@@ -293,6 +292,12 @@ def syncronize_post_processed_ifs_data(
         set_data_sycn_status(source="cgan", status=0)
 
 
+def compress_open_ifs_data():
+    data_files = get_forecast_data_files(source="jobs/grib2")
+    for data_file in data_files:
+        post_process_ecmwf_grib2_dataset(grib2_file_name=data_file, force_process=True)
+
+
 if __name__ == "__main__":
     parser = ArgumentParser()
     parser.add_argument(
@@ -353,5 +358,7 @@ if __name__ == "__main__":
         case "migrate":
             for source in ["ecmwf", "gbmc", "cgan"]:
                 migrate_files(source)
+        case "compress":
+            compress_open_ifs_data()
         case _:
             logger.error(f"handler for {args.command} not implemented!")
