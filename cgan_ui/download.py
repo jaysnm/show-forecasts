@@ -43,7 +43,7 @@ def read_dataset(
             if "number" in ds[i].dims:
                 arrays.append(standardize_dataset(ds[i]))
         try:
-            ds = xr.combine_by_coords(arrays, compat="override")
+            ds = xr.merge(arrays, compat="override")
         except Exception as err:
             logger.error(f"failed to read dataset {file_path} with error {err}")
     try:
