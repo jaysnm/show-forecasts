@@ -42,11 +42,18 @@ def read_dataset(
         for i in range(len(ds)):
             if "number" in ds[i].dims:
                 arrays.append(standardize_dataset(ds[i]))
-        ds = xr.combine_by_coords(arrays, compat="override")
-    return slice_dataset_by_bbox(
-        standardize_dataset(ds[OPEN_IFS_DATA_VARIABLES]),
-        get_region_extent(shape_name=mask_area),
-    )
+        try:
+            ds = xr.combine_by_coords(arrays, compat="override")
+        except Exception as err:
+            logger.error(f"failed to read dataset {file_path} with error {err}")
+    try:
+        return slice_dataset_by_bbox(
+            standardize_dataset(ds[OPEN_IFS_DATA_VARIABLES]),
+            get_region_extent(shape_name=mask_area),
+        )
+    except Exception as err:
+        logger.error(f"processing for {file_path} failed with error {err}")
+        return None
 
 
 def post_process_ecmwf_grib2_dataset(
@@ -73,6 +80,7 @@ def post_process_ecmwf_grib2_dataset(
         logger.info(
             f"post-processing ECMWF open IFS forecast data file {grib2_file_name}"
         )
+        ds = None
         for _ in range(re_try_times):
             ds = read_dataset(str(grib2_file))
             if ds is not None:
